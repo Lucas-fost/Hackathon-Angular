@@ -13,7 +13,3 @@ router.get('/members/:id', (req, res) => {
 })
 
 export = router;
-
-/**
- * Going to do a quick bit of extra typing
- */

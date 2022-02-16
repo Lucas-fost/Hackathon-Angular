@@ -18,17 +18,15 @@ export class AuthenticatorService {
     return MEMBERS.find(member => member.email === email && member.password === password)!
   }
 
-  login(email: string, password: string): void {
-    // const signedUser = this.validate(email, password)
-    // if (signedUser) this.currentUser = signedUser
-    // this.route.navigate(['/members'])
-
-    this.http.post('http:localhost:4000/login', JSON.stringify({ email: email, password: password }))
+  login(email: string, password: string): Observable<any> {
+    return this.http.post('http://localhost:4000/login', { email: email, password: password })
   }
 
+  logout(): Observable<any> {
+    return this.http.get('http://localhost:4000/logout')
+  }
 
-
-  isLoggedIn(): Observable<boolean> {
-    return of(this.currentUser.email ? true : false)
+  isLoggedIn(): Observable<any> {
+    return this.http.get('http://localhost:4000/api/authcheck')
   }
 }

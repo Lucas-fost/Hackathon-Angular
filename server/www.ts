@@ -9,13 +9,9 @@ import * as bodyParser from 'body-parser'
 import * as passport from 'passport'
 
 import * as passportConfig from './config/passport';
-// import userController = require('./controllers/user');
 import * as userController from './controllers/user';
 
 const MongoStore = require('connect-mongo')(session);
-
-import router = require('./routes/exampleRoute');
-import authRouter = require('./routes/auth')
 
 const app: express.Application = express();
 
@@ -54,44 +50,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// all the routes will be registered here
-// app.use('/api', router);
-// app.use('/auth', authRouter)
-
+app.post('/login', userController.postLogin);
+app.get('/logout', userController.logout);
+app.get('/api/members', passportConfig.isAuthenticated, userController.getMembers);
+app.get('/api/members/member/:id', passportConfig.isAuthenticated, userController.getMember);
+app.get('/api/authcheck', passportConfig.isAuthenticated, userController.checkAuth)
 
 // All the requests will be send to angular routing if the route is not present on the server/api
-// app.get('/login', userController.getLogin);
-app.post('/login', userController.postLogin);
-// app.get('/logout', userController.logout);
-// app.get('/forgot', userController.getForgot);
-// app.post('/forgot', userController.postForgot);
-// app.get('/reset/:token', userController.getReset);
-// app.post('/reset/:token', userController.postReset);
-// app.get('/signup', userController.getSignup);
-// app.post('/signup', userController.postSignup);
-// app.get('/account/verify',
-// passportConfig.isAuthenticated,
-// userController.getVerifyEmail);
-// app.get('/account/verify/:token',
-// passportConfig.isAuthenticated,
-// userController.getVerifyEmailToken);
-// app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
-// app.post('/account/profile',
-// passportConfig.isAuthenticated,
-// userController.postUpdateProfile);
-// app.post('/account/password',
-// passportConfig.isAuthenticated,
-// userController.postUpdatePassword);
-// app.post('/account/delete',
-// passportConfig.isAuthenticated,
-// userController.postDeleteAccount);
-// app.get('/account/unlink/:provider',
-// passportConfig.isAuthenticated,
-// userController.getOauthUnlink);
-app.get('/api/members', passportConfig.isAuthenticated, userController.getMembers);
-app.get('/api/members/member/:id',
-passportConfig.isAuthenticated,
-userController.getMember);
 app.use('/*', express.static(path.join(__dirname, './../client/index.html')));
 
 // catch 404 and forward to error handler

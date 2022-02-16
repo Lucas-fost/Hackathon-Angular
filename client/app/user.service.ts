@@ -10,15 +10,6 @@ import { MEMBERS } from "../assets/members-list";
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  // getMembers(): Observable<User[]> {
-  //   return of(MEMBERS);
-  // }
-
-  // getMember(id: number): Observable<User> {
-  //   const member = MEMBERS.find((member) => member.id === id)!;
-  //   return of(member);
-  // }
-
   getMembers(): Observable<User[]> {
     return this.http.get<User[]>('http://localhost:4000/api/members')
   }

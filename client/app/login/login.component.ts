@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AuthenticatorService } from '../authenticator.service';
 
@@ -14,15 +15,17 @@ export class LoginComponent implements OnInit {
   password: string = ''
 
 
-  constructor(private authenticator: AuthenticatorService) { }
+  constructor(private authenticator: AuthenticatorService, private route: Router) { }
 
   ngOnInit(): void {
   }
 
   handleLogin(event: any, value: any): void {
     event.preventDefault()
-    console.log('submitted')
     this.authenticator.login(this.email, this.password)
+      .subscribe(response => {
+        this.route.navigate(['/members'])
+      })
   }
 
 }

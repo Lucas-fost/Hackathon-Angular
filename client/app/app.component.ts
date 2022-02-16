@@ -15,16 +15,12 @@ export class AppComponent {
   constructor(private authService: AuthenticatorService) {}
 
   ngOnInit() {
-    this.subscribe();
+    this.authService.isLoggedIn()
+      .subscribe(response => this.loggedIn = response.auth)
   }
 
-  subscribe(): void {
-    this.authService.isLoggedIn().subscribe((state) => {
-      this.updateState(state);
-    })
-  }
-
-  updateState(state: boolean) {
-    this.loggedIn = state;
+  logout(): void {
+    this.authService.logout()
+      .subscribe(response => this.loggedIn = response.auth)
   }
 }
