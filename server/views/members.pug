@@ -1,0 +1,15 @@
+extends ./layout
+
+block content 
+.pb-2.mt-2.mb-4.border-bottom
+  h3 Members
+
+.row
+  .col-md-4
+    ul(style={'list-style': 'none'})
+      for user in users
+        li= !user.profile.name ? 'User has no name' : user.profile.name
+  .col-md-4
+    ul(style={'list-style': 'none'})
+        li
+          a(href=`/members/member/${user._id}`)='View Profile'

@@ -1,0 +1,12 @@
+extends ./layout
+
+block content 
+  .pb-2.mt-2.mb-4.border-bottom
+    h3= user.profile.name
+
+  .row
+    .col-md-3
+        img(src=user.gravatar())
+    .col-md-4
+        h3= user.profile.name
+        p= user.email
