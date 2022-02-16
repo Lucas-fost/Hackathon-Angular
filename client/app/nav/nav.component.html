@@ -1,5 +1,6 @@
-<div class="nav">
-  <button class="nav-button" [routerLink]="['/home']">Home</button> 
-  <button class="nav-button">Members</button> 
-  <button class="nav-button">Login</button> 
-</div>
+<nav class="nav">
+  <button class="nav-button" routerLink="/home">Home</button> 
+  <button *ngIf="loggedIn" class="nav-button" routerLink="/members">Members</button> 
+  <button *ngIf="loggedIn" class="nav-button" (click)="logout()">Logout</button> 
+  <button *ngIf="!loggedIn" class="nav-button" routerLink="/login">Login</button> 
+</nav>

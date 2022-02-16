@@ -303,10 +303,4 @@
 </style>
 
 <h2>Here's an Angular app</h2>
-<nav class="nav">
-  <button class="nav-button" routerLink="/home">Home</button> 
-  <button *ngIf="loggedIn" class="nav-button" routerLink="/members">Members</button> 
-  <button *ngIf="loggedIn" class="nav-button" (click)="logout()">Logout</button> 
-  <button *ngIf="!loggedIn" class="nav-button" routerLink="/login">Login</button> 
-</nav>
 <router-outlet></router-outlet>

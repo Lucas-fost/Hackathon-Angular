@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticatorService } from "../authenticator.service";
+import { Router } from '@angular/router';
 
 import { UserService } from '../user.service';
-import { User } from '../user';
 
 @Component({
   selector: 'app-members',
@@ -10,12 +11,16 @@ import { User } from '../user';
 })
 export class MembersComponent implements OnInit {
 
-  users: User[] = []
+  users: any[] = []
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private auth: AuthenticatorService, private route: Router) { }
 
   ngOnInit(): void {
     this.getUsers()
+    this.auth.isLoggedIn()
+      .subscribe(response => {
+        if(!response.auth) this.route.navigate(['login'])
+      })
   }
 
   getUsers(): void {
