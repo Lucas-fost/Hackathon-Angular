@@ -10,7 +10,7 @@ import { User } from '../user';
   styleUrls: ['./member.component.css'],
 })
 export class MemberComponent implements OnInit {
-  user: User | undefined;
+  user: User;
 
   constructor(
     private userService: UserService,
@@ -22,8 +22,14 @@ export class MemberComponent implements OnInit {
   }
 
   getMember(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log(id)
     this.userService.getMember(id)
-      .subscribe(user => this.user = user)
+      .subscribe(user => {
+        console.log(user)
+        this.user = user
+        // const md5 = (<any>crypto).createHash('md5').update(this.user.email).digest('hex');
+        this.user.profile.picture = `https://gravatar.com/avatar/${this.user.email}?s=200&d=retro`
+      })
   }
 }

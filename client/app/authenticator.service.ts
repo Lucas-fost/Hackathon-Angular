@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
@@ -9,8 +8,6 @@ import { MEMBERS} from '../assets/members-list';
 
 @Injectable()
 export class AuthenticatorService {
-
-  private currentUser: User = {id: 99, name: '', password: '', email: ''}
 
   constructor(private route: Router, private http: HttpClient) { } 
 

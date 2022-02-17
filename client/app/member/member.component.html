@@ -1,1 +1,23 @@
-<p>member works!</p>
+<app-nav></app-nav>
+<div *ngIf="user" class="user">
+  <h3>{{ user.profile.name }}</h3>
+  <table class="imgHold">
+    <tr>
+      <td>
+        <img src="{{ user.profile.picture }}" />
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <h3>
+          {{ user.profile.name }}
+        </h3>
+      </th>
+      <td>
+        <p>
+          {{ user.email }}
+        </p>
+      </td>
+    </tr>
+  </table>
+</div>
