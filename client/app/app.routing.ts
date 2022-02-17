@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'members', component: MembersComponent, pathMatch: 'full'  },
   { path: 'members/member/:id', component: MemberComponent },
   { path: 'login', component: LoginComponent},
+  { path: 'signup', component: SignupComponent }
   { path: 'home', component: HomeComponent }
 ];
 

@@ -136,9 +136,14 @@ exports.postSignup = (req, res, next) => {
   }
   req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
 
+  const md5 = (<any>crypto).createHash('md5').update(req.body.email).digest('hex');
+
   const user = new User({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    profile: {
+      picture: `https://gravatar.com/avatar/${md5}?s=200&d=retro`
+    }
   });
 
   User.findOne({ email: req.body.email }, (err, existingUser) => {
@@ -153,7 +158,7 @@ exports.postSignup = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        res.redirect('/');
+        res.json(user);
       });
     });
   });

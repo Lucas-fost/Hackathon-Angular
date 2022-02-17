@@ -48,6 +48,7 @@ app.get('/logout', userController.logout);
 app.get('/api/members', passportConfig.isAuthenticated, userController.getMembers);
 app.get('/api/members/member/:id', passportConfig.isAuthenticated, userController.getMember);
 app.get('/api/authcheck', passportConfig.isAuthenticated, userController.checkAuth);
+app.post('/signup', userController.postSignup);
 // All the requests will be send to angular routing if the route is not present on the server/api
 app.use('/*', express.static(path.join(__dirname, './../client/index.html')));
 // catch 404 and forward to error handler
