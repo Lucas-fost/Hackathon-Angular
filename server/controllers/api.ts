@@ -1,3 +1,4 @@
+export
 const { promisify } = require('util');
 const cheerio = require('cheerio');
 const { LastFmNode } = require('lastfm');
@@ -86,7 +87,7 @@ exports.getTumblr = (req, res, next) => {
 exports.getFacebook = (req, res, next) => {
   const token = req.user.tokens.find((token) => token.kind === 'facebook');
   const secret = process.env.FACEBOOK_SECRET;
-  const appsecretProof = crypto.createHmac('sha256', secret).update(token.accessToken).digest('hex');
+  const appsecretProof = (<any>crypto).createHmac('sha256', secret).update(token.accessToken).digest('hex');
   axios.get(`https://graph.facebook.com/${req.user.facebook}?fields=id,name,email,first_name,last_name,gender,link,locale,timezone&access_token=${token.accessToken}&appsecret_proof=${appsecretProof}`)
     .then((response) => {
       res.render('api/facebook', {
@@ -212,7 +213,7 @@ exports.getLastfm = async (req, res, next) => {
       });
     });
   try {
-    const { artist: artistInfo } = await getArtistInfo();
+    const { artist: artistInfo }: any = await getArtistInfo();
     const topTracks = await getArtistTopTracks();
     const topAlbums = await getArtistTopAlbums();
     const artist = {
@@ -335,7 +336,7 @@ exports.getSteam = async (req, res, next) => {
         if (data.response.total_count === 0) {
           return null;
         }
-        params.appid = data.response.games[0].appid;
+        (<any>params).appid = data.response.games[0].appid;
         const achievementsURL = makeURL('http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/', params);
         return axios.get(achievementsURL)
           .then(({ data }) => {
@@ -357,15 +358,15 @@ exports.getSteam = async (req, res, next) => {
       });
   };
   const getPlayerSummaries = () => {
-    params.steamids = steamId;
+    (<any>params).steamids = steamId;
     const url = makeURL('http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/', params);
     return axios.get(url)
       .then(({ data }) => data)
       .catch(() => Promise.reject(new Error('There was an error while getting player summary')));
   };
   const getOwnedGames = () => {
-    params.include_appinfo = 1;
-    params.include_played_free_games = 1;
+    (<any>params).include_appinfo = 1;
+    (<any>params).include_played_free_games = 1;
     const url = makeURL('http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/', params);
     return axios.get(url)
       .then(({ data }) => data)
@@ -504,8 +505,8 @@ exports.getChart = async (req, res, next) => {
       // reverse so dates appear from left to right
       dates.reverse();
       closing.reverse();
-      dates = JSON.stringify(dates);
-      closing = JSON.stringify(closing);
+      (<any>dates) = JSON.stringify(dates);
+      (<any>closing) = JSON.stringify(closing);
       res.render('api/chart', {
         title: 'Chart',
         dates,

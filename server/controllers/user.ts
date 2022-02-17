@@ -1,4 +1,4 @@
-/* eslint-disable arrow-body-style */
+export/* eslint-disable arrow-body-style */
 const { promisify } = require('util');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
@@ -69,7 +69,7 @@ exports.getLogin = (req, res) => {
  * Sign in using email and password.
  */
 exports.postLogin = (req, res, next) => {
-  console.log(req.body)
+  console.log(req)
   const validationErrors = [];
   if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
   if (validator.isEmpty(req.body.password)) validationErrors.push({ msg: 'Password cannot be blank.' });
@@ -83,14 +83,13 @@ exports.postLogin = (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) { return next(err); }
     if (!user) {
-      req.flash('errors', info);
+      console.log('errors', info);
       return res.redirect('/login');
     }
     req.logIn(user, (err) => {
       if (err) { return next(err); }
-      req.flash('success', { msg: 'Success! You are logged in.' });
-      // res.redirect(req.session.returnTo || '/');
-      res.json(user)
+      console.log('success', { msg: 'Success! You are logged in.' });
+      return res.json(user);
     });
   })(req, res, next);
 };
@@ -104,7 +103,7 @@ exports.logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) console.log('Error : Failed to destroy the session during logout.', err);
     req.user = null;
-    res.redirect('/');
+    res.json({auth: false});
   });
 };
 
@@ -544,18 +543,18 @@ exports.postForgot = (req, res, next) => {
 };
 
 exports.getMembers = (req, res, next) => {
-  // if (!req.isAuthenticated()) {
-  //   return res.redirect('/');
-  // }
+  if (!req.isAuthenticated()) {
+    return res.json({auth: false});
+  }
   User.find((err, usersList) => {
     return res.json(usersList)
   });
 };
 
 exports.getMember = (req, res) => {
-  // if (!req.isAuthenticated()) {
-  //   return res.redirect('/');
-  // }
+  if (!req.isAuthenticated()) {
+    return res.json({auth: false});
+  }
   User.findOne({ _id: req.params.id })
     .then((member) => {
       console.log(member);
@@ -567,3 +566,5 @@ exports.getMember = (req, res) => {
     });
   // .catch(err => console.log(err))
 };
+
+exports.checkAuth = (req, res) => req.isAuthenticated() ? res.json({auth: true}) : res.json({auth: false})

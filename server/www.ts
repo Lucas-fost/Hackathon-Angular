@@ -50,11 +50,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.post('/login', userController.postLogin);
-app.get('/logout', userController.logout);
-app.get('/api/members', passportConfig.isAuthenticated, userController.getMembers);
-app.get('/api/members/member/:id', passportConfig.isAuthenticated, userController.getMember);
-app.get('/api/authcheck', passportConfig.isAuthenticated, userController.checkAuth)
+app.post('/login', (<any>userController).postLogin);
+app.get('/logout', (<any>userController).logout);
+app.get('/api/members', (<any>passportConfig).isAuthenticated, (<any>userController).getMembers);
+app.get('/api/members/member/:id', (<any>passportConfig).isAuthenticated, (<any>userController).getMember);
+app.get('/api/authcheck', (<any>passportConfig).isAuthenticated, (<any>userController).checkAuth)
 
 // All the requests will be send to angular routing if the route is not present on the server/api
 app.use('/*', express.static(path.join(__dirname, './../client/index.html')));
@@ -140,7 +140,7 @@ function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
 
-  console.log('Server is running on localhost:' + addr.port);
+  console.log('Server is running on localhost:' + <any>addr.port);
 }
 
 

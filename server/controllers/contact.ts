@@ -1,3 +1,4 @@
+export
 const axios = require('axios');
 const validator = require('validator');
 const nodemailer = require('nodemailer');
