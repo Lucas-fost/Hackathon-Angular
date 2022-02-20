@@ -11,8 +11,9 @@ import { AuthenticatorService } from '../authenticator.service';
 })
 export class LoginComponent implements OnInit {
 
-  email: string = ''
-  password: string = ''
+  email: string;
+  password: string;
+  isLoggedIn: boolean;
 
 
   constructor(private authenticator: AuthenticatorService, private route: Router) { }
@@ -21,11 +22,11 @@ export class LoginComponent implements OnInit {
   }
 
   handleLogin(event: any, value: any): void {
-    event.preventDefault()
+    event.preventDefault();
     this.authenticator.login(this.email, this.password)
       .subscribe(response => {
-        this.route.navigate(['/members'])
-      })
+        this.route.navigate(['/members']);
+      });
   }
 
 }

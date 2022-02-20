@@ -1,0 +1,27 @@
+.user {
+  justify-items: center;
+  margin: 0 auto;
+  text-align: center;
+}
+.user table {
+  margin: 0 auto;
+}
+
+.imgHold {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+.imgHold tr:nth-child(1) {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+* {
+  text-align: center;
+}

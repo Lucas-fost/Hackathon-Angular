@@ -111,12 +111,14 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__nav_nav_component__ = __webpack_require__("../../../../../client/app/nav/nav.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__authenticator_service__ = __webpack_require__("../../../../../client/app/authenticator.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__user_service__ = __webpack_require__("../../../../../client/app/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__signup_signup_component__ = __webpack_require__("../../../../../client/app/signup/signup.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -143,7 +145,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_7__members_members_component__["a" /* MembersComponent */],
             __WEBPACK_IMPORTED_MODULE_8__home_home_component__["a" /* HomeComponent */],
             __WEBPACK_IMPORTED_MODULE_9__login_login_component__["a" /* LoginComponent */],
-            __WEBPACK_IMPORTED_MODULE_10__nav_nav_component__["a" /* NavComponent */]
+            __WEBPACK_IMPORTED_MODULE_10__nav_nav_component__["a" /* NavComponent */],
+            __WEBPACK_IMPORTED_MODULE_13__signup_signup_component__["a" /* SignupComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
@@ -172,6 +175,7 @@ AppModule = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__member_member_component__ = __webpack_require__("../../../../../client/app/member/member.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__login_login_component__ = __webpack_require__("../../../../../client/app/login/login.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__home_home_component__ = __webpack_require__("../../../../../client/app/home/home.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__signup_signup_component__ = __webpack_require__("../../../../../client/app/signup/signup.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -184,11 +188,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'members', component: __WEBPACK_IMPORTED_MODULE_2__members_members_component__["a" /* MembersComponent */], pathMatch: 'full' },
     { path: 'members/member/:id', component: __WEBPACK_IMPORTED_MODULE_3__member_member_component__["a" /* MemberComponent */] },
     { path: 'login', component: __WEBPACK_IMPORTED_MODULE_4__login_login_component__["a" /* LoginComponent */] },
+    { path: 'signup', component: __WEBPACK_IMPORTED_MODULE_6__signup_signup_component__["a" /* SignupComponent */] },
     { path: 'home', component: __WEBPACK_IMPORTED_MODULE_5__home_home_component__["a" /* HomeComponent */] }
 ];
 var AppRoutingModule = (function () {
@@ -246,6 +252,9 @@ var AuthenticatorService = (function () {
     };
     AuthenticatorService.prototype.isLoggedIn = function () {
         return this.http.get('http://localhost:4000/api/authcheck');
+    };
+    AuthenticatorService.prototype.signup = function (email, password, confirmPassword, name) {
+        return this.http.post('http://localhost:4000/signup', { email: email, password: password, confirmPassword: confirmPassword, name: name });
     };
     return AuthenticatorService;
 }());
@@ -344,7 +353,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "* {\n  text-align: center;\n}", ""]);
 
 // exports
 
@@ -357,7 +366,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../client/app/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-nav></app-nav>\n<div class=\"pb-2 mt-2 mb-4 border-bottom\">\n  <h3>Sign in</h3>\n</div>\n<form ngForm #loginForm (ngSubmit)=\"handleLogin($event, loginForm['value'])\">\n  <input type=\"hidden\" name=\"_csrf\" />\n  <div class=\"form-group row\">\n    <label\n      class=\"col-md-3 col-form-label font-weight-bold text-right\"\n      for=\"email\"\n      >Email</label\n    >\n    <div class=\"col-md-7\">\n      <input\n        class=\"form-control\"\n        type=\"email\"\n        name=\"email\"\n        id=\"email\"\n        placeholder=\"Email\"\n        autofocus=\"autofocus\"\n        autocomplete=\"email\"\n        required=\"required\"\n        [(ngModel)]=\"this.email\"\n      />\n    </div>\n  </div>\n  <div class=\"form-group row\">\n    <label\n      class=\"col-md-3 col-form-label font-weight-bold text-right\"\n      for=\"password\"\n      >Password</label\n    >\n    <div class=\"col-md-7\">\n      <input\n        class=\"form-control\"\n        type=\"password\"\n        name=\"password\"\n        id=\"password\"\n        placeholder=\"Password\"\n        autocomplete=\"current-password\"\n        required=\"required\"\n        [(ngModel)]=\"this.password\"\n      />\n    </div>\n  </div>\n  <div class=\"form-group\">\n    <div class=\"offset-md-3 col-md-7 pl-2\">\n      <button class=\"col-md-3 btn btn-primary\" type=\"submit\" (click)=\"handleLogin($event, loginForm['value'])\">\n        <i class=\"far fa-user fa-sm\"></i>Login\n      </button>\n    </div>\n  </div>\n  <div class=\"form-group\">\n    <div class=\"offset-md-3 col-md-7 pl-2\">\n      <hr />\n    </div>\n  </div>\n</form>\n"
+module.exports = "<app-nav></app-nav>\n<div class=\"pb-2 mt-2 mb-4 border-bottom\">\n  <h3>Sign in</h3>\n</div>\n<form ngForm #loginForm (ngSubmit)=\"handleLogin($event, loginForm['value'])\">\n  <input type=\"hidden\" name=\"_csrf\" />\n  <div class=\"form-group row\">\n    <label\n      class=\"col-md-3 col-form-label font-weight-bold text-right\"\n      for=\"email\"\n      >Email</label\n    >\n    <div class=\"col-md-7\">\n      <input\n        class=\"form-control\"\n        type=\"email\"\n        name=\"email\"\n        id=\"email\"\n        placeholder=\"Email\"\n        autofocus=\"autofocus\"\n        autocomplete=\"email\"\n        required=\"required\"\n        [(ngModel)]=\"this.email\"\n      />\n    </div>\n  </div>\n  <div class=\"form-group row\">\n    <label\n      class=\"col-md-3 col-form-label font-weight-bold text-right\"\n      for=\"password\"\n      >Password</label\n    >\n    <div class=\"col-md-7\">\n      <input\n        class=\"form-control\"\n        type=\"password\"\n        name=\"password\"\n        id=\"password\"\n        placeholder=\"Password\"\n        autocomplete=\"current-password\"\n        required=\"required\"\n        [(ngModel)]=\"this.password\"\n      />\n    </div>\n  </div>\n  <div class=\"form-group\">\n    <div class=\"offset-md-3 col-md-7 pl-2\">\n      <button class=\"col-md-3 btn btn-primary\" type=\"submit\" (click)=\"handleLogin($event, loginForm['value'])\">\n        <i class=\"far fa-user fa-sm\"></i>Login\n      </button>\n    </div>\n  </div>\n  <div class=\"form-group\">\n    <div class=\"offset-md-3 col-md-7 pl-2\">\n      <hr />\n    </div>\n  </div>\n</form>\n\n<app-signup></app-signup>"
 
 /***/ }),
 
@@ -385,8 +394,6 @@ var LoginComponent = (function () {
     function LoginComponent(authenticator, route) {
         this.authenticator = authenticator;
         this.route = route;
-        this.email = '';
-        this.password = '';
     }
     LoginComponent.prototype.ngOnInit = function () {
     };
@@ -436,7 +443,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../client/app/member/member.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-nav></app-nav>\n<div *ngIf=\"user\" class=\"user\">\n  <h3>{{ user.profile.name }}</h3>\n  <table class=\"imgHold\">\n    <tr>\n      <td>\n        <img src=\"{{ user.profile.picture }}\" />\n      </td>\n    </tr>\n    <tr>\n      <th>\n        <h3>\n          {{ user.profile.name }}\n        </h3>\n      </th>\n      <td>\n        <p>\n          {{ user.email }}\n        </p>\n      </td>\n    </tr>\n  </table>\n</div>\n"
+module.exports = "<app-nav></app-nav>\n<div *ngIf=\"user\" class=\"user\">\n  <h3>{{ user.profile.name }}</h3>\n  <table class=\"imgHold\">\n    <tr>\n      <td>\n        <img src=\"{{ user.profile.picture }}\" />\n      </td>\n    </tr>\n    <tr>\n      <th>\n        <h3>\n          {{ user.profile.name }}\n        </h3>\n      </th>\n      <td>\n        <p>\n          {{ user.email }}\n        </p>\n      </td>\n    </tr>\n  </table>\n</div>"
 
 /***/ }),
 
@@ -476,8 +483,9 @@ var MemberComponent = (function () {
             .subscribe(function (user) {
             console.log(user);
             _this.user = user;
-            // const md5 = (<any>crypto).createHash('md5').update(this.user.email).digest('hex');
-            _this.user.profile.picture = "https://gravatar.com/avatar/" + _this.user.email + "?s=200&d=retro";
+            _this.user.profile.picture = _this.user.profile.picture ?
+                _this.user.profile.picture :
+                "https://gravatar.com/avatar/" + _this.user.email + "?s=200&d=retro";
         });
     };
     return MemberComponent;
@@ -659,6 +667,82 @@ NavComponent = __decorate([
 
 var _a, _b;
 //# sourceMappingURL=nav.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../client/app/signup/signup.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".user {\n  -ms-grid-column-align: center;\n      justify-items: center;\n  margin: 0 auto;\n  text-align: center;\n}\n.user table {\n  margin: 0 auto;\n}\n\n.imgHold {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-direction: row;\n      flex-direction: row;\n  -ms-flex-pack: center;\n      justify-content: center;\n  width: 100%;\n  margin: 0 auto;\n}\n.imgHold tr:nth-child(1) {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-direction: row;\n      flex-direction: row;\n  -ms-flex-pack: center;\n      justify-content: center;\n  width: 100%;\n  margin: 0 auto;\n}\n\n* {\n  text-align: center;\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../client/app/signup/signup.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"pb-2 mt-2 mb-4 border-bottom\">\n  <h3>Sign up</h3>\n</div>\n<form ngForm #signupForm (ngSubmit)=\"handleSignup($event, signupForm['value'])\">\n  <input type=\"hidden\" name=\"_csrf\" />\n  <div class=\"form-group row\">\n    <label\n      class=\"col-md-3 col-form-label font-weight-bold text-right\"\n      for=\"email\"\n      >Email</label\n    >\n    <div class=\"col-md-7\">\n      <input\n        class=\"form-control\"\n        type=\"email\"\n        name=\"email\"\n        id=\"email\"\n        placeholder=\"Email\"\n        autofocus=\"autofocus\"\n        autocomplete=\"email\"\n        required=\"required\"\n        [(ngModel)]=\"this.email\"\n      />\n    </div>\n  </div>\n  <div class=\"form-group row\">\n    <label\n      class=\"col-md-3 col-form-label font-weight-bold text-right\"\n      for=\"name\"\n      >Name</label\n    >\n    <div class=\"col-md-7\">\n      <input\n        class=\"form-control\"\n        type=\"text\"\n        name=\"name\"\n        id=\"name\"\n        placeholder=\"Name\"\n        autofocus=\"autofocus\"\n        autocomplete=\"name\"\n        required=\"required\"\n        [(ngModel)]=\"this.name\"\n      />\n    </div>\n  </div>\n  <div class=\"form-group row\">\n    <label\n      class=\"col-md-3 col-form-label font-weight-bold text-right\"\n      for=\"password\"\n      >Password</label\n    >\n    <div class=\"col-md-7\">\n      <input\n        class=\"form-control\"\n        type=\"password\"\n        name=\"password\"\n        id=\"password\"\n        placeholder=\"Password\"\n        autocomplete=\"current-password\"\n        required=\"required\"\n        [(ngModel)]=\"this.password\"\n      />\n    </div>\n  </div>\n  <div class=\"form-group row\">\n    <label\n      class=\"col-md-3 col-form-label font-weight-bold text-right\"\n      for=\"confirmPassword\"\n      >Confirm Password</label\n    >\n    <div class=\"col-md-7\">\n      <input\n        class=\"form-control\"\n        type=\"password\"\n        name=\"confirmPassword\"\n        id=\"confirmPassword\"\n        placeholder=\"Confirm Password\"\n        autocomplete=\"current-password\"\n        required=\"required\"\n        [(ngModel)]=\"this.confirmPassword\"\n      />\n    </div>\n  </div>\n  <div class=\"form-group\">\n    <div class=\"offset-md-3 col-md-7 pl-2\">\n      <button class=\"col-md-3 btn btn-primary\" type=\"submit\" (click)=\"handleSignup($event, signupForm['value'])\">\n        <i class=\"far fa-user fa-sm\"></i>signup\n      </button>\n    </div>\n  </div>\n  <div class=\"form-group\">\n    <div class=\"offset-md-3 col-md-7 pl-2\">\n      <hr />\n    </div>\n  </div>\n</form>"
+
+/***/ }),
+
+/***/ "../../../../../client/app/signup/signup.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SignupComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__authenticator_service__ = __webpack_require__("../../../../../client/app/authenticator.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SignupComponent = (function () {
+    function SignupComponent(auth, route) {
+        this.auth = auth;
+        this.route = route;
+    }
+    SignupComponent.prototype.ngOnInit = function () {
+    };
+    SignupComponent.prototype.handleSignup = function (event, value) {
+        var _this = this;
+        event.preventDefault();
+        this.auth.signup(this.email, this.password, this.confirmPassword, this.name)
+            .subscribe(function (response) {
+            _this.route.navigate(['/members']);
+        });
+    };
+    return SignupComponent;
+}());
+SignupComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-signup',
+        template: __webpack_require__("../../../../../client/app/signup/signup.component.html"),
+        styles: [__webpack_require__("../../../../../client/app/signup/signup.component.css")],
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__authenticator_service__["a" /* AuthenticatorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__authenticator_service__["a" /* AuthenticatorService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object])
+], SignupComponent);
+
+var _a, _b;
+//# sourceMappingURL=signup.component.js.map
 
 /***/ }),
 

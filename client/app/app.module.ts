@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthenticatorService } from './authenticator.service';
 import { UserService } from './user.service';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { UserService } from './user.service';
     MembersComponent,
     HomeComponent,
     LoginComponent,
-    NavComponent
+    NavComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

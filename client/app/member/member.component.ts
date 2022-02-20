@@ -23,13 +23,14 @@ export class MemberComponent implements OnInit {
 
   getMember(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log(id)
+    console.log(id);
     this.userService.getMember(id)
       .subscribe(user => {
-        console.log(user)
-        this.user = user
-        // const md5 = (<any>crypto).createHash('md5').update(this.user.email).digest('hex');
-        this.user.profile.picture = `https://gravatar.com/avatar/${this.user.email}?s=200&d=retro`
-      })
+        console.log(user);
+        this.user = user;
+        this.user.profile.picture = this.user.profile.picture ? 
+          this.user.profile.picture : 
+          `https://gravatar.com/avatar/${this.user.email}?s=200&d=retro`;
+      });
   }
 }

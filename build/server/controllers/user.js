@@ -124,13 +124,18 @@ exports.getSignup = (req, res) => {
  * Create a new local account.
  */
 exports.postSignup = (req, res, next) => {
+    console.log(req.body);
     const validationErrors = [];
-    if (!validator.isEmail(req.body.email))
+    if (!validator.isEmail(req.body.email)) {
         validationErrors.push({ msg: 'Please enter a valid email address.' });
-    if (!validator.isLength(req.body.password, { min: 8 }))
+    }
+    if (!validator.isLength(req.body.password, { min: 8 })) {
         validationErrors.push({ msg: 'Password must be at least 8 characters long' });
-    if (req.body.password !== req.body.confirmPassword)
+    }
+    if (req.body.password !== req.body.confirmPassword) {
         validationErrors.push({ msg: 'Passwords do not match' });
+    }
+    console.log(validationErrors);
     if (validationErrors.length) {
         req.flash('errors', validationErrors);
         return res.redirect('/signup');
@@ -141,6 +146,7 @@ exports.postSignup = (req, res, next) => {
         email: req.body.email,
         password: req.body.password,
         profile: {
+            name: req.body.name,
             picture: `https://gravatar.com/avatar/${md5}?s=200&d=retro`
         }
     });
@@ -160,7 +166,7 @@ exports.postSignup = (req, res, next) => {
                 if (err) {
                     return next(err);
                 }
-                res.json(user);
+                return res.json(user);
             });
         });
     });
