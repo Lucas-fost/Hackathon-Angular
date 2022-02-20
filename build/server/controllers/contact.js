@@ -90,7 +90,8 @@ exports.postContact = (req, res) => __awaiter(this, void 0, void 0, function* ()
         })
             .catch((err) => {
             if (err.message === 'self signed certificate in certificate chain') {
-                console.log('WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.');
+                console.log('WARNING: Self signed certificate in certificate chain.'
+                    + ' Retrying with the self signed certificate. Use a valid certificate if in production.');
                 transportConfig.tls = transportConfig.tls || {};
                 transportConfig.tls.rejectUnauthorized = false;
                 transporter = nodemailer.createTransport(transportConfig);

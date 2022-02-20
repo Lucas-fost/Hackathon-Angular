@@ -28,6 +28,11 @@ export class AuthenticatorService {
   }
 
   signup(email: string, password: string, confirmPassword: string, name: string): Observable<any> {
-    return this.http.post('http://localhost:4000/signup', { email: email, password: password, confirmPassword: confirmPassword, name: name });
+    return this.http.post('http://localhost:4000/signup', { 
+      email: email, 
+      password: password, 
+      confirmPassword: confirmPassword, 
+      name: name 
+    });
   }
 }

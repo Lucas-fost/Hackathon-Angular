@@ -23,10 +23,8 @@ export class MemberComponent implements OnInit {
 
   getMember(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
     this.userService.getMember(id)
       .subscribe(user => {
-        console.log(user);
         this.user = user;
         this.user.profile.picture = this.user.profile.picture ? 
           this.user.profile.picture : 

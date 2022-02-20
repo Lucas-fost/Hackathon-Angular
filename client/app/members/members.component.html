@@ -1,6 +1,6 @@
 <app-nav></app-nav>
 <ul class="members">
   <li *ngFor="let user of users">
-    <a href="http://localhost:4000/members/member/{{user._id}}">{{user.profile.name}}</a>   -   {{user.email}}
+    <a href="http://localhost:4000/members/member/{{user._id}}">{{user.profile.name || 'no name given'}}</a>   -   {{user.email}}
   </li>
 </ul>

@@ -35,7 +35,8 @@ const sendMail = (settings) => {
     })
         .catch((err) => {
         if (err.message === 'self signed certificate in certificate chain') {
-            console.log('WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.');
+            console.log('WARNING: Self signed certificate in certificate chain.'
+                + ' Retrying with the self signed certificate. Use a valid certificate if in production.');
             transportConfig.tls = transportConfig.tls || {};
             transportConfig.tls.rejectUnauthorized = false;
             transporter = nodemailer.createTransport(transportConfig);
@@ -66,12 +67,13 @@ exports.getLogin = (req, res) => {
  * Sign in using email and password.
  */
 exports.postLogin = (req, res, next) => {
-    console.log(req);
     const validationErrors = [];
-    if (!validator.isEmail(req.body.email))
+    if (!validator.isEmail(req.body.email)) {
         validationErrors.push({ msg: 'Please enter a valid email address.' });
-    if (validator.isEmpty(req.body.password))
+    }
+    if (validator.isEmpty(req.body.password)) {
         validationErrors.push({ msg: 'Password cannot be blank.' });
+    }
     if (validationErrors.length) {
         req.flash('errors', validationErrors);
         return res.redirect('/login');
@@ -101,8 +103,9 @@ exports.postLogin = (req, res, next) => {
 exports.logout = (req, res) => {
     req.logout();
     req.session.destroy((err) => {
-        if (err)
+        if (err) {
             console.log('Error : Failed to destroy the session during logout.', err);
+        }
         req.user = null;
         res.json({ auth: false });
     });
@@ -124,7 +127,6 @@ exports.getSignup = (req, res) => {
  * Create a new local account.
  */
 exports.postSignup = (req, res, next) => {
-    console.log(req.body);
     const validationErrors = [];
     if (!validator.isEmail(req.body.email)) {
         validationErrors.push({ msg: 'Please enter a valid email address.' });
@@ -135,7 +137,6 @@ exports.postSignup = (req, res, next) => {
     if (req.body.password !== req.body.confirmPassword) {
         validationErrors.push({ msg: 'Passwords do not match' });
     }
-    console.log(validationErrors);
     if (validationErrors.length) {
         req.flash('errors', validationErrors);
         return res.redirect('/signup');
@@ -186,8 +187,9 @@ exports.getAccount = (req, res) => {
  */
 exports.postUpdateProfile = (req, res, next) => {
     const validationErrors = [];
-    if (!validator.isEmail(req.body.email))
+    if (!validator.isEmail(req.body.email)) {
         validationErrors.push({ msg: 'Please enter a valid email address.' });
+    }
     if (validationErrors.length) {
         req.flash('errors', validationErrors);
         return res.redirect('/account');
@@ -197,8 +199,9 @@ exports.postUpdateProfile = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        if (user.email !== req.body.email)
+        if (user.email !== req.body.email) {
             user.emailVerified = false;
+        }
         user.email = req.body.email || '';
         user.profile.name = req.body.name || '';
         user.profile.gender = req.body.gender || '';
@@ -223,10 +226,12 @@ exports.postUpdateProfile = (req, res, next) => {
  */
 exports.postUpdatePassword = (req, res, next) => {
     const validationErrors = [];
-    if (!validator.isLength(req.body.password, { min: 8 }))
+    if (!validator.isLength(req.body.password, { min: 8 })) {
         validationErrors.push({ msg: 'Password must be at least 8 characters long' });
-    if (req.body.password !== req.body.confirmPassword)
+    }
+    if (req.body.password !== req.body.confirmPassword) {
         validationErrors.push({ msg: 'Passwords do not match' });
+    }
     if (validationErrors.length) {
         req.flash('errors', validationErrors);
         return res.redirect('/account');
@@ -301,8 +306,9 @@ exports.getReset = (req, res, next) => {
         return res.redirect('/');
     }
     const validationErrors = [];
-    if (!validator.isHexadecimal(req.params.token))
+    if (!validator.isHexadecimal(req.params.token)) {
         validationErrors.push({ msg: 'Invalid Token.  Please retry.' });
+    }
     if (validationErrors.length) {
         req.flash('errors', validationErrors);
         return res.redirect('/forgot');
@@ -333,8 +339,9 @@ exports.getVerifyEmailToken = (req, res, next) => {
         return res.redirect('/account');
     }
     const validationErrors = [];
-    if (req.params.token && (!validator.isHexadecimal(req.params.token)))
+    if (req.params.token && (!validator.isHexadecimal(req.params.token))) {
         validationErrors.push({ msg: 'Invalid Token.  Please retry.' });
+    }
     if (validationErrors.length) {
         req.flash('errors', validationErrors);
         return res.redirect('/account');
@@ -374,7 +381,9 @@ exports.getVerifyEmail = (req, res, next) => {
         return res.redirect('/account');
     }
     if (!mailChecker.isValid(req.user.email)) {
-        req.flash('errors', { msg: 'The email address is invalid or disposable and can not be verified.  Please update your email address and try again.' });
+        req.flash('errors', {
+            msg: 'The email address is invalid or disposable and can not be verified.  Please update your email address and try again.'
+        });
         return res.redirect('/account');
     }
     const createRandomToken = randomBytesAsync(16)
@@ -422,12 +431,15 @@ exports.getVerifyEmail = (req, res, next) => {
  */
 exports.postReset = (req, res, next) => {
     const validationErrors = [];
-    if (!validator.isLength(req.body.password, { min: 8 }))
+    if (!validator.isLength(req.body.password, { min: 8 })) {
         validationErrors.push({ msg: 'Password must be at least 8 characters long' });
-    if (req.body.password !== req.body.confirm)
+    }
+    if (req.body.password !== req.body.confirm) {
         validationErrors.push({ msg: 'Passwords do not match' });
-    if (!validator.isHexadecimal(req.params.token))
+    }
+    if (!validator.isHexadecimal(req.params.token)) {
         validationErrors.push({ msg: 'Invalid Token.  Please retry.' });
+    }
     if (validationErrors.length) {
         req.flash('errors', validationErrors);
         return res.redirect('back');
@@ -467,7 +479,8 @@ exports.postReset = (req, res, next) => {
             successfulMsg: 'Success! Your password has been changed.',
             loggingError: 'ERROR: Could not send password reset confirmation email after security downgrade.\n',
             errorType: 'warning',
-            errorMsg: 'Your password has been changed, however we were unable to send you a confirmation email. We will be looking into it shortly.',
+            errorMsg: 'Your password has been changed, however we were unable to send you a confirmation email.'
+                + ' We will be looking into it shortly.',
             mailOptions,
             req
         };
@@ -475,8 +488,11 @@ exports.postReset = (req, res, next) => {
     };
     resetPassword()
         .then(sendResetPasswordEmail)
-        .then(() => { if (!res.finished)
-        res.redirect('/'); })
+        .then(() => {
+        if (!res.finished) {
+            res.redirect('/');
+        }
+    })
         .catch((err) => next(err));
 };
 /**
@@ -497,8 +513,9 @@ exports.getForgot = (req, res) => {
  */
 exports.postForgot = (req, res, next) => {
     const validationErrors = [];
-    if (!validator.isEmail(req.body.email))
+    if (!validator.isEmail(req.body.email)) {
         validationErrors.push({ msg: 'Please enter a valid email address.' });
+    }
     if (validationErrors.length) {
         req.flash('errors', validationErrors);
         return res.redirect('/forgot');
@@ -572,7 +589,6 @@ exports.getMember = (req, res) => {
             return res.json(member);
         }
     });
-    // .catch(err => console.log(err))
 };
 exports.checkAuth = (req, res) => req.isAuthenticated() ? res.json({ auth: true }) : res.json({ auth: false });
 //# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/controllers/user.js.map

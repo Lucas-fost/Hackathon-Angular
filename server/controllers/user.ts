@@ -36,7 +36,8 @@ const sendMail = (settings) => {
     })
     .catch((err) => {
       if (err.message === 'self signed certificate in certificate chain') {
-        console.log('WARNING: Self signed certificate in certificate chain. Retrying with the self signed certificate. Use a valid certificate if in production.');
+        console.log('WARNING: Self signed certificate in certificate chain.'
+        + ' Retrying with the self signed certificate. Use a valid certificate if in production.');
         transportConfig.tls = transportConfig.tls || {};
         transportConfig.tls.rejectUnauthorized = false;
         transporter = nodemailer.createTransport(transportConfig);
@@ -69,10 +70,13 @@ exports.getLogin = (req, res) => {
  * Sign in using email and password.
  */
 exports.postLogin = (req, res, next) => {
-  console.log(req)
   const validationErrors = [];
-  if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
-  if (validator.isEmpty(req.body.password)) validationErrors.push({ msg: 'Password cannot be blank.' });
+  if (!validator.isEmail(req.body.email)) {
+    validationErrors.push({ msg: 'Please enter a valid email address.' });
+  }
+  if (validator.isEmpty(req.body.password)) {
+    validationErrors.push({ msg: 'Password cannot be blank.' });
+  }
 
   if (validationErrors.length) {
     req.flash('errors', validationErrors);
@@ -101,7 +105,9 @@ exports.postLogin = (req, res, next) => {
 exports.logout = (req, res) => {
   req.logout();
   req.session.destroy((err) => {
-    if (err) console.log('Error : Failed to destroy the session during logout.', err);
+    if (err) {
+      console.log('Error : Failed to destroy the session during logout.', err);
+    }
     req.user = null;
     res.json({auth: false});
   });
@@ -125,7 +131,6 @@ exports.getSignup = (req, res) => {
  * Create a new local account.
  */
 exports.postSignup = (req, res, next) => {
-  console.log(req.body);
   const validationErrors = [];
   if (!validator.isEmail(req.body.email)) {
     validationErrors.push({ msg: 'Please enter a valid email address.' });
@@ -137,7 +142,6 @@ exports.postSignup = (req, res, next) => {
     validationErrors.push({ msg: 'Passwords do not match' });
   }
 
-  console.log(validationErrors);
   if (validationErrors.length) {
     req.flash('errors', validationErrors);
     return res.redirect('/signup');
@@ -189,7 +193,9 @@ exports.getAccount = (req, res) => {
  */
 exports.postUpdateProfile = (req, res, next) => {
   const validationErrors = [];
-  if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
+  if (!validator.isEmail(req.body.email)) {
+    validationErrors.push({ msg: 'Please enter a valid email address.' });
+  }
 
   if (validationErrors.length) {
     req.flash('errors', validationErrors);
@@ -199,7 +205,9 @@ exports.postUpdateProfile = (req, res, next) => {
 
   User.findById(req.user.id, (err, user) => {
     if (err) { return next(err); }
-    if (user.email !== req.body.email) user.emailVerified = false;
+    if (user.email !== req.body.email) {
+      user.emailVerified = false;
+    }
     user.email = req.body.email || '';
     user.profile.name = req.body.name || '';
     user.profile.gender = req.body.gender || '';
@@ -225,8 +233,12 @@ exports.postUpdateProfile = (req, res, next) => {
  */
 exports.postUpdatePassword = (req, res, next) => {
   const validationErrors = [];
-  if (!validator.isLength(req.body.password, { min: 8 })) validationErrors.push({ msg: 'Password must be at least 8 characters long' });
-  if (req.body.password !== req.body.confirmPassword) validationErrors.push({ msg: 'Passwords do not match' });
+  if (!validator.isLength(req.body.password, { min: 8 })) {
+    validationErrors.push({ msg: 'Password must be at least 8 characters long' });
+  }
+  if (req.body.password !== req.body.confirmPassword) {
+    validationErrors.push({ msg: 'Passwords do not match' });
+  }
 
   if (validationErrors.length) {
     req.flash('errors', validationErrors);
@@ -299,7 +311,9 @@ exports.getReset = (req, res, next) => {
     return res.redirect('/');
   }
   const validationErrors = [];
-  if (!validator.isHexadecimal(req.params.token)) validationErrors.push({ msg: 'Invalid Token.  Please retry.' });
+  if (!validator.isHexadecimal(req.params.token)) {
+    validationErrors.push({ msg: 'Invalid Token.  Please retry.' });
+  }
   if (validationErrors.length) {
     req.flash('errors', validationErrors);
     return res.redirect('/forgot');
@@ -331,7 +345,9 @@ exports.getVerifyEmailToken = (req, res, next) => {
   }
 
   const validationErrors = [];
-  if (req.params.token && (!validator.isHexadecimal(req.params.token))) validationErrors.push({ msg: 'Invalid Token.  Please retry.' });
+  if (req.params.token && (!validator.isHexadecimal(req.params.token))) {
+    validationErrors.push({ msg: 'Invalid Token.  Please retry.' });
+  }
   if (validationErrors.length) {
     req.flash('errors', validationErrors);
     return res.redirect('/account');
@@ -373,7 +389,9 @@ exports.getVerifyEmail = (req, res, next) => {
   }
 
   if (!mailChecker.isValid(req.user.email)) {
-    req.flash('errors', { msg: 'The email address is invalid or disposable and can not be verified.  Please update your email address and try again.' });
+    req.flash('errors', { 
+      msg: 'The email address is invalid or disposable and can not be verified.  Please update your email address and try again.' 
+    });
     return res.redirect('/account');
   }
 
@@ -426,9 +444,15 @@ exports.getVerifyEmail = (req, res, next) => {
  */
 exports.postReset = (req, res, next) => {
   const validationErrors = [];
-  if (!validator.isLength(req.body.password, { min: 8 })) validationErrors.push({ msg: 'Password must be at least 8 characters long' });
-  if (req.body.password !== req.body.confirm) validationErrors.push({ msg: 'Passwords do not match' });
-  if (!validator.isHexadecimal(req.params.token)) validationErrors.push({ msg: 'Invalid Token.  Please retry.' });
+  if (!validator.isLength(req.body.password, { min: 8 })) {
+    validationErrors.push({ msg: 'Password must be at least 8 characters long' });
+  }
+  if (req.body.password !== req.body.confirm) {
+    validationErrors.push({ msg: 'Passwords do not match' });
+  }
+  if (!validator.isHexadecimal(req.params.token)) {
+    validationErrors.push({ msg: 'Invalid Token.  Please retry.' });
+  }
 
   if (validationErrors.length) {
     req.flash('errors', validationErrors);
@@ -468,7 +492,8 @@ exports.postReset = (req, res, next) => {
       successfulMsg: 'Success! Your password has been changed.',
       loggingError: 'ERROR: Could not send password reset confirmation email after security downgrade.\n',
       errorType: 'warning',
-      errorMsg: 'Your password has been changed, however we were unable to send you a confirmation email. We will be looking into it shortly.',
+      errorMsg: 'Your password has been changed, however we were unable to send you a confirmation email.'
+              + ' We will be looking into it shortly.',
       mailOptions,
       req
     };
@@ -477,7 +502,11 @@ exports.postReset = (req, res, next) => {
 
   resetPassword()
     .then(sendResetPasswordEmail)
-    .then(() => { if (!res.finished) res.redirect('/'); })
+    .then(() => { 
+      if (!res.finished) {
+        res.redirect('/');
+      } 
+    })
     .catch((err) => next(err));
 };
 
@@ -500,7 +529,9 @@ exports.getForgot = (req, res) => {
  */
 exports.postForgot = (req, res, next) => {
   const validationErrors = [];
-  if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
+  if (!validator.isEmail(req.body.email)) {
+    validationErrors.push({ msg: 'Please enter a valid email address.' });
+  }
 
   if (validationErrors.length) {
     req.flash('errors', validationErrors);
@@ -561,7 +592,7 @@ exports.getMembers = (req, res, next) => {
     return res.json({auth: false});
   }
   User.find((err, usersList) => {
-    return res.json(usersList)
+    return res.json(usersList);
   });
 };
 
@@ -575,10 +606,9 @@ exports.getMember = (req, res) => {
       if (!member) {
         req.flash('errors', { msg: 'Account with that email address does not exist.' });
       } else {
-        return res.json(member)
+        return res.json(member);
       }
     });
-  // .catch(err => console.log(err))
 };
 
-exports.checkAuth = (req, res) => req.isAuthenticated() ? res.json({auth: true}) : res.json({auth: false})
+exports.checkAuth = (req, res) => req.isAuthenticated() ? res.json({auth: true}) : res.json({auth: false});

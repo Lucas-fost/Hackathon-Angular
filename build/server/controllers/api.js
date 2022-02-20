@@ -749,8 +749,9 @@ exports.getGoogleDrive = (req, res) => {
     drive.files.list({
         fields: 'files(iconLink, webViewLink, name)'
     }, (err, response) => {
-        if (err)
+        if (err) {
             return console.log(`The API returned an error: ${err}`);
+        }
         res.render('api/google-drive', {
             title: 'Google Drive API',
             files: response.data.files,
@@ -776,8 +777,9 @@ exports.getGoogleSheets = (req, res) => {
         spreadsheetId: id,
         range: 'Class Data!A1:F',
     }, (err, response) => {
-        if (err)
+        if (err) {
             return console.log(`The API returned an error: ${err}`);
+        }
         res.render('api/google-sheets', {
             title: 'Google Sheets API',
             values: response.data.values,

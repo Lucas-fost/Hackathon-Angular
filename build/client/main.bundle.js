@@ -254,7 +254,12 @@ var AuthenticatorService = (function () {
         return this.http.get('http://localhost:4000/api/authcheck');
     };
     AuthenticatorService.prototype.signup = function (email, password, confirmPassword, name) {
-        return this.http.post('http://localhost:4000/signup', { email: email, password: password, confirmPassword: confirmPassword, name: name });
+        return this.http.post('http://localhost:4000/signup', {
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+            name: name
+        });
     };
     return AuthenticatorService;
 }());
@@ -443,7 +448,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../client/app/member/member.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-nav></app-nav>\n<div *ngIf=\"user\" class=\"user\">\n  <h3>{{ user.profile.name }}</h3>\n  <table class=\"imgHold\">\n    <tr>\n      <td>\n        <img src=\"{{ user.profile.picture }}\" />\n      </td>\n    </tr>\n    <tr>\n      <th>\n        <h3>\n          {{ user.profile.name }}\n        </h3>\n      </th>\n      <td>\n        <p>\n          {{ user.email }}\n        </p>\n      </td>\n    </tr>\n  </table>\n</div>"
+module.exports = "<app-nav></app-nav>\n<div *ngIf=\"user\" class=\"user\">\n  <h3>{{ user.profile.name }}</h3>\n  <table class=\"imgHold\">\n    <tr>\n      <td>\n        <img src=\"{{ user.profile.picture }}\" />\n      </td>\n    </tr>\n    <tr>\n      <th>\n        <h3>\n          {{ user.profile.name || 'no name given' }}\n        </h3>\n      </th>\n      <td>\n        <p>\n          {{ user.email }}\n        </p>\n      </td>\n    </tr>\n  </table>\n</div>"
 
 /***/ }),
 
@@ -478,10 +483,8 @@ var MemberComponent = (function () {
     MemberComponent.prototype.getMember = function () {
         var _this = this;
         var id = this.route.snapshot.paramMap.get('id');
-        console.log(id);
         this.userService.getMember(id)
             .subscribe(function (user) {
-            console.log(user);
             _this.user = user;
             _this.user.profile.picture = _this.user.profile.picture ?
                 _this.user.profile.picture :
@@ -512,7 +515,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "li {\n  list-style: none;\n}", ""]);
 
 // exports
 
@@ -525,7 +528,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../client/app/members/members.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-nav></app-nav>\n<ul class=\"members\">\n  <li *ngFor=\"let user of users\">\n    <a href=\"http://localhost:4000/members/member/{{user._id}}\">{{user.profile.name}}</a>   -   {{user.email}}\n  </li>\n</ul>"
+module.exports = "<app-nav></app-nav>\n<ul class=\"members\">\n  <li *ngFor=\"let user of users\">\n    <a href=\"http://localhost:4000/members/member/{{user._id}}\">{{user.profile.name || 'no name given'}}</a>   -   {{user.email}}\n  </li>\n</ul>"
 
 /***/ }),
 
@@ -563,8 +566,9 @@ var MembersComponent = (function () {
         this.getUsers();
         this.auth.isLoggedIn()
             .subscribe(function (response) {
-            if (!response.auth)
+            if (!response.auth) {
                 _this.route.navigate(['login']);
+            }
         });
     };
     MembersComponent.prototype.getUsers = function () {
