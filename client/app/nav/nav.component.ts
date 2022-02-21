@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { AuthenticatorService } from "../authenticator.service";
+import { AuthenticatorService } from '../authenticator.service';
 
 @Component({
-  selector: "app-nav",
-  templateUrl: "./nav.component.html",
-  styleUrls: ["./nav.component.css"],
+  selector: 'app-nav',
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
-  loggedIn: boolean = false;
+  loggedIn: boolean;
 
   constructor(private authService: AuthenticatorService, private route: Router) {}
 
@@ -23,8 +23,8 @@ export class NavComponent implements OnInit {
     this.authService
       .logout()
       .subscribe((response) => {
-        this.loggedIn = response.auth
-        this.route.navigate(['/home'])
+        this.loggedIn = response.auth;
+        this.route.navigate(['/home']);
       });
   }
 }

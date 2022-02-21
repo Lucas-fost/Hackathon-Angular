@@ -64,7 +64,6 @@ var AppComponent = (function () {
     function AppComponent(authService) {
         this.authService = authService;
         this.title = 'angular-attempt';
-        this.loggedIn = false;
     }
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -220,9 +219,7 @@ var routing = __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticatorService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__assets_members_list__ = __webpack_require__("../../../../../client/assets/members-list.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -234,18 +231,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-
 var AuthenticatorService = (function () {
-    function AuthenticatorService(route, http) {
-        this.route = route;
+    function AuthenticatorService(http) {
         this.http = http;
     }
-    AuthenticatorService.prototype.validate = function (email, password) {
-        return __WEBPACK_IMPORTED_MODULE_3__assets_members_list__["a" /* MEMBERS */].find(function (member) { return member.email === email && member.password === password; });
-    };
+    // Client side code for Auth API integration
     AuthenticatorService.prototype.login = function (email, password) {
-        return this.http.post('http://localhost:4000/login', { email: email, password: password });
+        return this.http.post('http://localhost:4000/login', {
+            email: email,
+            password: password
+        });
     };
     AuthenticatorService.prototype.logout = function () {
         return this.http.get('http://localhost:4000/logout');
@@ -265,10 +260,10 @@ var AuthenticatorService = (function () {
 }());
 AuthenticatorService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common_http__["a" /* HttpClient */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object])
 ], AuthenticatorService);
 
-var _a, _b;
+var _a;
 //# sourceMappingURL=authenticator.service.js.map
 
 /***/ }),
@@ -319,7 +314,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var HomeComponent = (function () {
     function HomeComponent(authService) {
         this.authService = authService;
-        this.loggedIn = false;
     }
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -338,7 +332,7 @@ var HomeComponent = (function () {
 HomeComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
         providers: [__WEBPACK_IMPORTED_MODULE_1__authenticator_service__["a" /* AuthenticatorService */]],
-        selector: "app-home",
+        selector: 'app-home',
         template: __webpack_require__("../../../../../client/app/home/home.component.html"),
         styles: [__webpack_require__("../../../../../client/app/home/home.component.css")],
     }),
@@ -407,6 +401,7 @@ var LoginComponent = (function () {
         event.preventDefault();
         this.authenticator.login(this.email, this.password)
             .subscribe(function (response) {
+            // console.log(response);
             _this.route.navigate(['/members']);
         });
     };
@@ -482,13 +477,10 @@ var MemberComponent = (function () {
     };
     MemberComponent.prototype.getMember = function () {
         var _this = this;
-        var id = this.route.snapshot.paramMap.get('id');
-        this.userService.getMember(id)
+        this.userService.getMember(this.route.snapshot.paramMap.get('id'))
             .subscribe(function (user) {
             _this.user = user;
-            _this.user.profile.picture = _this.user.profile.picture ?
-                _this.user.profile.picture :
-                "https://gravatar.com/avatar/" + _this.user.email + "?s=200&d=retro";
+            _this.user.profile.picture = _this.user.profile.picture || "https://gravatar.com/avatar/" + _this.user.email + "?s=200&d=retro";
         });
     };
     return MemberComponent;
@@ -559,7 +551,6 @@ var MembersComponent = (function () {
         this.userService = userService;
         this.auth = auth;
         this.route = route;
-        this.users = [];
     }
     MembersComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -641,7 +632,6 @@ var NavComponent = (function () {
     function NavComponent(authService, route) {
         this.authService = authService;
         this.route = route;
-        this.loggedIn = false;
     }
     NavComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -662,7 +652,7 @@ var NavComponent = (function () {
 }());
 NavComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-        selector: "app-nav",
+        selector: 'app-nav',
         template: __webpack_require__("../../../../../client/app/nav/nav.component.html"),
         styles: [__webpack_require__("../../../../../client/app/nav/nav.component.css")],
     }),
@@ -772,6 +762,7 @@ var UserService = (function () {
     function UserService(http) {
         this.http = http;
     }
+    // Client side code for User API interaction
     UserService.prototype.getMembers = function () {
         return this.http.get('http://localhost:4000/api/members');
     };
@@ -787,82 +778,6 @@ UserService = __decorate([
 
 var _a;
 //# sourceMappingURL=user.service.js.map
-
-/***/ }),
-
-/***/ "../../../../../client/assets/members-list.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MEMBERS; });
-var MEMBERS = [
-    {
-        _id: '0',
-        name: 'Jim Jimmerson',
-        email: 'jim@example.com',
-        password: 'password',
-        profile: {
-            name: 'String',
-            gender: 'String',
-            location: 'String',
-            website: 'String',
-            picture: 'String'
-        }
-    },
-    {
-        _id: '1',
-        name: 'Geoff Geoffries',
-        email: 'Geoff@example.com',
-        password: 'password',
-        profile: {
-            name: 'String',
-            gender: 'String',
-            location: 'String',
-            website: 'String',
-            picture: 'String'
-        }
-    },
-    {
-        _id: '2',
-        name: 'Janet Janetson',
-        email: 'Janet@example.com',
-        password: 'password',
-        profile: {
-            name: 'String',
-            gender: 'String',
-            location: 'String',
-            website: 'String',
-            picture: 'String'
-        }
-    },
-    {
-        _id: '3',
-        name: 'Horatio McFancy IV',
-        email: 'Horatio@example.com',
-        password: 'password',
-        profile: {
-            name: 'String',
-            gender: 'String',
-            location: 'String',
-            website: 'String',
-            picture: 'String'
-        }
-    },
-    {
-        _id: '4',
-        name: 'Bob Boberts',
-        email: 'Bob@example.com',
-        password: 'password',
-        profile: {
-            name: 'String',
-            gender: 'String',
-            location: 'String',
-            website: 'String',
-            picture: 'String'
-        }
-    },
-];
-//# sourceMappingURL=members-list.js.map
 
 /***/ }),
 

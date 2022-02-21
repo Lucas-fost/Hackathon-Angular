@@ -19,6 +19,7 @@ app.use(compression());
 app.use(body_parser_1.urlencoded({ extended: true }));
 // This will tell the server the place from where to render static files related to angular code
 app.use(express.static(path.join(__dirname, './../client')));
+// Mongoose DB middleware setup
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
@@ -29,6 +30,7 @@ mongoose.connection.on('error', (err) => {
     console.log('%s MongoDB connection error. Please make sure MongoDB is running.');
     process.exit();
 });
+// Express Session middleware setup (for Passport)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -43,12 +45,13 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+// Server API endpoints
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
+app.post('/signup', userController.postSignup);
 app.get('/api/members', passportConfig.isAuthenticated, userController.getMembers);
 app.get('/api/members/member/:id', passportConfig.isAuthenticated, userController.getMember);
 app.get('/api/authcheck', passportConfig.isAuthenticated, userController.checkAuth);
-app.post('/signup', userController.postSignup);
 // All the requests will be send to angular routing if the route is not present on the server/api
 app.use('/*', express.static(path.join(__dirname, './../client/index.html')));
 // catch 404 and forward to error handler

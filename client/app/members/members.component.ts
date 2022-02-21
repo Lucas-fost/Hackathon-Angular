@@ -11,7 +11,7 @@ import { UserService } from '../user.service';
 })
 export class MembersComponent implements OnInit {
 
-  users: any[] = []
+  users: any[];
 
   constructor(private userService: UserService, private auth: AuthenticatorService, private route: Router) { }
 

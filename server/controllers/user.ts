@@ -91,7 +91,7 @@ exports.postLogin = (req, res, next) => {
       return res.redirect('/login');
     }
     req.logIn(user, (err) => {
-      if (err) { return next(err); }
+      if (err) { return res.json(err); }
       console.log('success', { msg: 'Success! You are logged in.' });
       return res.json(user);
     });

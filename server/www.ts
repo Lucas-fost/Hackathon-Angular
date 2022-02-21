@@ -3,10 +3,10 @@ import * as compression from 'compression';
 import * as express from 'express';
 import * as path from 'path';
 import * as http from 'http';
-import * as session from 'express-session'
-import * as mongoose from 'mongoose'
-import * as bodyParser from 'body-parser'
-import * as passport from 'passport'
+import * as session from 'express-session';
+import * as mongoose from 'mongoose';
+import * as bodyParser from 'body-parser';
+import * as passport from 'passport';
 
 import * as passportConfig from './config/passport';
 import * as userController from './controllers/user';
@@ -24,6 +24,7 @@ app.use(urlencoded({ extended: true }));
 // This will tell the server the place from where to render static files related to angular code
 app.use(express.static(path.join(__dirname, './../client')));
 
+// Mongoose DB middleware setup
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
@@ -35,6 +36,7 @@ mongoose.connection.on('error', (err) => {
   process.exit();
 });
 
+// Express Session middleware setup (for Passport)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -50,12 +52,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Server API endpoints
 app.post('/login', (<any>userController).postLogin);
 app.get('/logout', (<any>userController).logout);
+app.post('/signup', (<any>userController).postSignup);
 app.get('/api/members', (<any>passportConfig).isAuthenticated, (<any>userController).getMembers);
 app.get('/api/members/member/:id', (<any>passportConfig).isAuthenticated, (<any>userController).getMember);
-app.get('/api/authcheck', (<any>passportConfig).isAuthenticated, (<any>userController).checkAuth)
-app.post('/signup', (<any>userController).postSignup);
+app.get('/api/authcheck', (<any>passportConfig).isAuthenticated, (<any>userController).checkAuth);
 
 // All the requests will be send to angular routing if the route is not present on the server/api
 app.use('/*', express.static(path.join(__dirname, './../client/index.html')));
@@ -65,7 +68,6 @@ app.use((req: express.Request, res: express.Response, next) => {
   const err = new Error('Not Found');
   next(err);
 });
-
 
 // production error handler
 // no stacktrace leaked to user
@@ -82,35 +84,28 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 const port = normalizePort(process.env.PORT || 4000);
 app.set('port', port);
 
-
 // Create HTTP server.
 const server = http.createServer(app);
-
 
 // Listen on provided port, on all network interfaces.
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-
 // Normalize a port into a number, string, or false.
 function normalizePort(val): boolean | number {
-
   const normalizedPort = parseInt(val, 10);
 
   if (isNaN(normalizedPort)) {
     // named pipe
     return val;
   }
-
   if (normalizedPort >= 0) {
     // port number
     return normalizedPort;
   }
-
   return false;
 }
-
 
 // Event listener for HTTP server 'error' event.
 function onError(error) {
@@ -134,7 +129,6 @@ function onError(error) {
       throw error;
   }
 }
-
 
 // Event listener for HTTP server 'listening' event.
 function onListening() {

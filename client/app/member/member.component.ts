@@ -22,13 +22,10 @@ export class MemberComponent implements OnInit {
   }
 
   getMember(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.userService.getMember(id)
+    this.userService.getMember(this.route.snapshot.paramMap.get('id'))
       .subscribe(user => {
         this.user = user;
-        this.user.profile.picture = this.user.profile.picture ? 
-          this.user.profile.picture : 
-          `https://gravatar.com/avatar/${this.user.email}?s=200&d=retro`;
+        this.user.profile.picture = this.user.profile.picture || `https://gravatar.com/avatar/${this.user.email}?s=200&d=retro`;
       });
   }
 }

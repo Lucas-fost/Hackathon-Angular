@@ -10,7 +10,7 @@ import { AuthenticatorService } from './authenticator.service';
 })
 export class AppComponent {
   title = 'angular-attempt';
-  loggedIn: boolean = false;
+  loggedIn: boolean;
 
   constructor(private authService: AuthenticatorService) {}
 

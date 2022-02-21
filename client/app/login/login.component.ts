@@ -13,7 +13,6 @@ export class LoginComponent implements OnInit {
 
   email: string;
   password: string;
-  isLoggedIn: boolean;
 
 
   constructor(private authenticator: AuthenticatorService, private route: Router) { }
@@ -25,6 +24,7 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     this.authenticator.login(this.email, this.password)
       .subscribe(response => {
+        // console.log(response);
         this.route.navigate(['/members']);
       });
   }

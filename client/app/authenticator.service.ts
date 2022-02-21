@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Observable } from 'rxjs/observable';
 import { HttpClient } from '@angular/common/http';
-
-import { User } from './user';
-import { MEMBERS} from '../assets/members-list';
 
 @Injectable()
 export class AuthenticatorService {
 
-  constructor(private route: Router, private http: HttpClient) { } 
+  constructor(private http: HttpClient) { } 
 
-  validate(email: string, password: string): User {
-    return MEMBERS.find(member => member.email === email && member.password === password);
-  }
-
+  // Client side code for Auth API integration
   login(email: string, password: string): Observable<any> {
-    return this.http.post('http://localhost:4000/login', { email: email, password: password });
+    return this.http.post('http://localhost:4000/login', { 
+      email: email, 
+      password: password 
+    });
   }
 
   logout(): Observable<any> {
