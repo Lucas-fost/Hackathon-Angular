@@ -736,6 +736,25 @@ SignupComponent = __decorate([
 ], SignupComponent);
 
 var _a, _b;
+/**
+ * I'm going to do a little more typing to try and get into the swing of things.
+ *
+ * I'm actually tempted to try and style the Angular version of this app to look and feel
+ * a little closer to the Node version. I don't think I want to try and implement the whole
+ * Bootstrap library, that feels like a tonne of work that I'm not interested in suffering through,
+ * but I could probably spend some time giving it at least a little more design since
+ * it's super plain right now.
+ * In fact, the sum of the styling basically just amounts to a bunch of text-align: center, rather
+ * than any actual layout or design work. Which is fine if I'm just trying to show off the functionality but
+ * does feel a little bleh given how much time I have to work on it.
+ *
+ * Sounds like Ethan isn't far off having his one done as well, so that might mean we can finally get around to getting
+ * into actual work rather than messing around with this stuff kind of aimlessly.
+ * Glad I've been able to get my head around it, though. It's actually been a really useful tool to be able to
+ * learn Angular by just diving in and trying to make it work. There's a lot of missing functionality for now
+ * and I've definitely only just scratched the surface but it's good to have spent some time actually
+ * figuring it out from scratch without just following a tutorial or copying existing code.
+ */
 //# sourceMappingURL=signup.component.js.map
 
 /***/ }),

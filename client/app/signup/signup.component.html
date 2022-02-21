@@ -1,7 +1,7 @@
 <div class="pb-2 mt-2 mb-4 border-bottom">
   <h3>Sign up</h3>
 </div>
-<form ngForm #signupForm (ngSubmit)="handleSignup($event, signupForm['value'])">
+<form ngForm #signupForm (ngSubmit)="handleSignup($event)">
   <input type="hidden" name="_csrf" />
   <div class="form-group row">
     <label
@@ -83,7 +83,7 @@
   </div>
   <div class="form-group">
     <div class="offset-md-3 col-md-7 pl-2">
-      <button class="col-md-3 btn btn-primary" type="submit" (click)="handleSignup($event, signupForm['value'])">
+      <button class="col-md-3 btn btn-primary" type="submit" (click)="handleSignup($event)">
         <i class="far fa-user fa-sm"></i>signup
       </button>
     </div>

@@ -23,10 +23,11 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  handleSignup(event: any, value: any): void {
+  handleSignup(event: any): void {
     event.preventDefault();
     this.auth.signup(this.email, this.password, this.confirmPassword, this.name)
       .subscribe(response => {
+        console.log(response || "signup doesn't return a response")
         this.route.navigate(['/members']);
       });
   }
