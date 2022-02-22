@@ -73,4 +73,4 @@ userSchema.methods.gravatar = function gravatar(size) {
 };
 const User = mongoose.model('User', userSchema);
 module.exports = User;
-//# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/models/User.js.map
+//# sourceMappingURL=/Users/lucas/Development/Hackathon-Angular/server/models/User.js.map

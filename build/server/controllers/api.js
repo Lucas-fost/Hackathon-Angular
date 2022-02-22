@@ -786,4 +786,4 @@ exports.getGoogleSheets = (req, res) => {
         });
     });
 };
-//# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/controllers/api.js.map
+//# sourceMappingURL=/Users/lucas/Development/Hackathon-Angular/server/controllers/api.js.map

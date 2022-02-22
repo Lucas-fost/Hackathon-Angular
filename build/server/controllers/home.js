@@ -7,4 +7,4 @@ exports.index = (req, res) => {
         title: 'Home'
     });
 };
-//# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/controllers/home.js.map
+//# sourceMappingURL=/Users/lucas/Development/Hackathon-Angular/server/controllers/home.js.map

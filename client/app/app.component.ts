@@ -16,11 +16,11 @@ export class AppComponent {
 
   ngOnInit() {
     this.authService.isLoggedIn()
-      .subscribe(response => this.loggedIn = response.auth)
+      .subscribe(response => this.loggedIn = response.auth);
   }
 
   logout(): void {
     this.authService.logout()
-      .subscribe(response => this.loggedIn = response.auth)
+      .subscribe(response => this.loggedIn = response.auth);
   }
 }

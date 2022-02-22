@@ -39,7 +39,7 @@ app.use(session({
     secret: 'sessionsecret',
     cookie: { maxAge: 1209600000 },
     store: new MongoStore({
-        url: 'mongodb://localhost:27017/test',
+        url: process.env.MONGODB_URI || 'mongodb://localhost:27017/test',
         autoReconnect: true,
     })
 }));
@@ -116,4 +116,4 @@ function onListening() {
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('Server is running on localhost:' + addr.port);
 }
-//# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/www.js.map
+//# sourceMappingURL=/Users/lucas/Development/Hackathon-Angular/server/www.js.map

@@ -9,5 +9,5 @@ export interface User {
     location: String,
     website: String,
     picture: String
-  }
+  };
 }

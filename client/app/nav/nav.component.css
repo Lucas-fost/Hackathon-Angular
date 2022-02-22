@@ -294,4 +294,8 @@ svg#clouds {
 
 .nav {
   text-align: center;
+  border-bottom: 1px solid #dee2e6 !important;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
 }

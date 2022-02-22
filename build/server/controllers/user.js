@@ -591,4 +591,4 @@ exports.getMember = (req, res) => {
     });
 };
 exports.checkAuth = (req, res) => req.isAuthenticated() ? res.json({ auth: true }) : res.json({ auth: false });
-//# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/controllers/user.js.map
+//# sourceMappingURL=/Users/lucas/Development/Hackathon-Angular/server/controllers/user.js.map

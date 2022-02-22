@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit {
     event.preventDefault();
     this.auth.signup(this.email, this.password, this.confirmPassword, this.name)
       .subscribe(response => {
-        console.log(response || "signup doesn't return a response")
+        console.log(response || 'signup doesn\'t return a response');
         this.route.navigate(['/members']);
       });
   }

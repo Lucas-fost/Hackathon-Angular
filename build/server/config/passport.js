@@ -48,4 +48,4 @@ exports.isAuthenticated = (req, res, next) => {
     }
     return next();
 };
-//# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/config/passport.js.map
+//# sourceMappingURL=/Users/lucas/Development/Hackathon-Angular/server/config/passport.js.map

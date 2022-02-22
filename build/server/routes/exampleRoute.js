@@ -10,4 +10,4 @@ router.get('/members/:id', (req, res) => {
     res.send(member ? member : `No member found at id: ${req.params.id}`);
 });
 module.exports = router;
-//# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/routes/exampleRoute.js.map
+//# sourceMappingURL=/Users/lucas/Development/Hackathon-Angular/server/routes/exampleRoute.js.map

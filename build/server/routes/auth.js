@@ -15,4 +15,4 @@ router.post('/login/password', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login'
 }));
-//# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/routes/auth.js.map
+//# sourceMappingURL=/Users/lucas/Development/Hackathon-Angular/server/routes/auth.js.map

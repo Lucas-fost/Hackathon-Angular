@@ -32,4 +32,4 @@ exports.MEMBERS = [
         password: 'password',
     },
 ];
-//# sourceMappingURL=/Users/lucas/Development/Angular-Node-Express-Typescript-master/server/members-list.js.map
+//# sourceMappingURL=/Users/lucas/Development/Hackathon-Angular/server/members-list.js.map

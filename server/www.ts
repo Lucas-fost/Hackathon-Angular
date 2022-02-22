@@ -45,7 +45,7 @@ app.use(session({
   secret: 'sessionsecret',
   cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
   store: new MongoStore({
-    url: 'mongodb://localhost:27017/test',
+    url: process.env.MONGODB_URI || 'mongodb://localhost:27017/test',
     autoReconnect: true,
   })
 }));
